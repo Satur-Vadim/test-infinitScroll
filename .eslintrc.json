@@ -40,7 +40,7 @@
     "import/order": "off", // disable default import order rule to use simple-import-sort
     "radix": "off",
     "react/jsx-props-no-spreading": ["error", {
-      "exceptions": ["input"]
+      "exceptions": ["input", "Component"]
     }],
     "react/jsx-no-leaked-render": "error",
     "react/jsx-handler-names": ["error", {

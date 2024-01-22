@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import baseApi from './apis/baseApi';
+import posts from './posts/slice';
 
 const makeStore = () => configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
+    posts,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([baseApi.middleware]),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default makeStore;

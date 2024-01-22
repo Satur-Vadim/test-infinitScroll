@@ -6,7 +6,7 @@ import Page from '../page';
 
 describe('Page', () => {
   it('renders a heading', async () => {
-    render(await Page({ params: { lng: 'en' } }));
+    render(await Page());
     const heading = screen.getByRole('main');
     expect(heading).toBeInTheDocument();
   });

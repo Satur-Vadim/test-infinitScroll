@@ -1,112 +1,25 @@
-import Image from 'next/image';
+import React from 'react';
 
-import useTranslation from '../../i18n';
-import ToggleLanguage from './components/ToggleLanguage';
-
-import type { IPage } from './interfaces/IPage';
+import type IPost from '@/store/posts/interfaces/IPost';
 
 import styles from './sass/page.module.scss';
 
-export default async function Home({ params: { lng } }: IPage) {
-  const { t } = await useTranslation(lng, 'common');
+import Posts from '@/app/[lng]/components/Posts';
+import { API_BASE_URL, POSTS_LIMIT } from '@/constants/general';
+import { POSTS } from '@/constants/requestUrls';
+
+async function getPosts() {
+  const res = await fetch(`${API_BASE_URL}/${POSTS}?_start=0&_limit=${POSTS_LIMIT}`);
+  return await res.json() as Promise<IPost[]>;
+}
+
+export default async function Home() {
+  const postsData = await getPosts();
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          {t('welcomeMessage')}
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <ToggleLanguage />
-        <div>
-          <a
-            href="https://vercel.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By
-            {' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs
-            {' '}
-            <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn
-            {' '}
-            <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates
-            {' '}
-            <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy
-            {' '}
-            <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <Posts posts={postsData} />
       </div>
     </main>
   );

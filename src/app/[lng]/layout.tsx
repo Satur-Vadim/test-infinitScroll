@@ -1,12 +1,13 @@
 import { dir } from 'i18next';
 import { Inter } from 'next/font/google';
 
-import { languages } from '../../i18n/settings';
-
 import type { Metadata } from 'next';
 import type { ILayout } from './interfaces/IPage';
 
 import './sass/globals.scss';
+
+import { languages } from '@/i18n/settings';
+import StoreProvider from '@/providers/StoreProvider/StoreProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +28,11 @@ export default function RootLayout({
 }: ILayout) {
   return (
     <html lang={lng} dir={dir(lng)}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
+      </body>
     </html>
   );
 }
